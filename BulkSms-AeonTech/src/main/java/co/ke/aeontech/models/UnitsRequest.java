@@ -9,8 +9,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -30,23 +28,20 @@ public class UnitsRequest {
 	@Column(name="id")
 	private Long id;	
 	
-	@Column(name="amount_requested", nullable = false)
+	@Column(name="amount_requested")
 	private double amountRequested;
 	
-	@Column(name="mpesa_trans_no", nullable = false, unique = true)
+	@Column(name="mpesa_trans_no", unique = true)
 	private String mpesaTransNo;
 	
-	@Column(name="request_date", nullable = false)
+	@Column(name="request_date")
 	private Date requestDate;
 	
-	@Column(name="request_status", nullable = false)
+	@Column(name="request_status")
 	private Request requestStatus;
 	
 	@ManyToOne(fetch = FetchType.LAZY, 
 			cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-			@JoinTable(name="org_units_requests",
-				inverseJoinColumns=@JoinColumn(name = "org_fk"),
-				joinColumns=@JoinColumn(name = "request_fk"))
 	private Organisation organisation;
 
 	public UnitsRequest() {

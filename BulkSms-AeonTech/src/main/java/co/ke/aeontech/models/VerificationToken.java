@@ -3,14 +3,14 @@ package co.ke.aeontech.models;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -31,12 +31,12 @@ public class VerificationToken {
     @Column(name="token")
     private String token;
 
-    @OneToOne(targetEntity = Organisation.class, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false, name = "org_id")
-    private Organisation organisation;
-
     @Column(name="expiry_date")
     private Date expiryDate;
+    
+    @ManyToOne(fetch = FetchType.LAZY, 
+			cascade = {CascadeType.PERSIST, CascadeType.MERGE})	
+    private Organisation organisation;
 
     public VerificationToken() {
         super();

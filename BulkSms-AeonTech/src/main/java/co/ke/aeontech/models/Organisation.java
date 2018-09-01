@@ -61,6 +61,11 @@ public class Organisation {
 			cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private List<TransactionCost> transCosts;
 	
+	@OneToMany(mappedBy = "organisation", orphanRemoval=true,
+			fetch = FetchType.LAZY, 
+			cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	private List<VerificationToken> tokens;
+	
 	public Organisation() {
 		super();
 		this.enabled = false;
@@ -70,7 +75,6 @@ public class Organisation {
 		super();
 		this.country = country;
 		this.name = name;
-//		this.senderId = senderId;
 		this.enabled = false;
 		this.createdOn = new Date();
 	}
@@ -141,7 +145,8 @@ public class Organisation {
 	public void setCreatedOn(Date createdOn) {
 		this.createdOn = createdOn;
 	}
-
+	
+	@JsonIgnore
 	public List<TransactionCost> getTransCosts() {
 		return transCosts;
 	}
@@ -150,6 +155,14 @@ public class Organisation {
 		this.transCosts = transCosts;
 	}
 
+	@JsonIgnore
+	public List<VerificationToken> getTokens() {
+		return tokens;
+	}
+
+	public void setTokens(List<VerificationToken> tokens) {
+		this.tokens = tokens;
+	}
 	@Override
     public int hashCode() {
         final int prime = 31;
@@ -175,7 +188,7 @@ public class Organisation {
         }
         return true;
     }
-    
+
 	@Override
 	public String toString() {
 		final StringBuilder builder = new StringBuilder();

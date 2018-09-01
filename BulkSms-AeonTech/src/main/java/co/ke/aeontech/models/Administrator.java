@@ -7,8 +7,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -38,9 +36,6 @@ public class Administrator {
 	
 	@ManyToOne(fetch = FetchType.LAZY, 
 			cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-			@JoinTable(name="org_administrators",
-				inverseJoinColumns=@JoinColumn(name = "org_fk"),
-				joinColumns=@JoinColumn(name = "admin_fk"))
 	private Organisation organisation;
 
 	public Administrator() {
