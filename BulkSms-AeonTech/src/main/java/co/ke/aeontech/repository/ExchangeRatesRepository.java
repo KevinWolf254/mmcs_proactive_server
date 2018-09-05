@@ -3,7 +3,7 @@ package co.ke.aeontech.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import co.ke.aeontech.models.ExchangeRate;
-import co.ke.aeontech.pojos.Country;
+import co.ke.aeontech.pojos.helpers.Country;
 
 public interface ExchangeRatesRepository extends JpaRepository<ExchangeRate, Long>{
 

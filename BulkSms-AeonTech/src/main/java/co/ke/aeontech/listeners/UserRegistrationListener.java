@@ -7,15 +7,13 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Service;
 
 import co.ke.aeontech.events.OnUserRegistrationCompleteEvent;
-import co.ke.aeontech.models.Administrator;
+import co.ke.aeontech.models.ClientAdmin;
 import co.ke.aeontech.pojos.EmailMessage;
 import co.ke.aeontech.services.EmailService;
 
 @Service
 public class UserRegistrationListener implements ApplicationListener<OnUserRegistrationCompleteEvent> {
   
-//    @Autowired
-//    private JavaMailSender mailSender;
 	@Autowired
 	private EmailService emailService;
 	
@@ -25,7 +23,7 @@ public class UserRegistrationListener implements ApplicationListener<OnUserRegis
     }
  
     private void confirmRegistration(OnUserRegistrationCompleteEvent event) {
-        final Administrator user = event.getUser();
+        final ClientAdmin user = event.getUser();
 
         String subject = "Account Created";
         final StringBuilder builder = new StringBuilder();
@@ -38,12 +36,6 @@ public class UserRegistrationListener implements ApplicationListener<OnUserRegis
 		String message =  builder.toString();
          
 		emailService.sendEmail(new EmailMessage(user.getEmail(), subject, message));
-
-//        SimpleMailMessage activationEmail = new SimpleMailMessage();
-//        activationEmail.setTo(user.getEmail());
-//        activationEmail.setSubject(subject);
-//        activationEmail.setText(message);
-//        mailSender.send(activationEmail);
     }
 
 }

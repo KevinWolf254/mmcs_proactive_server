@@ -4,18 +4,19 @@ import java.util.Locale;
 
 import org.springframework.context.ApplicationEvent;
 
-import co.ke.aeontech.models.Organisation;
+import co.ke.aeontech.models.Client;
 
 @SuppressWarnings("serial")
 public class OnRegistrationCompleteEvent extends ApplicationEvent {
 
     private final String appUrl;
     private final Locale locale;
-    private final Organisation organisation;
+    private final Client client;
 
-    public OnRegistrationCompleteEvent(final Organisation organisation, final Locale locale, final String appUrl) {
-        super(organisation);
-        this.organisation = organisation;
+    public OnRegistrationCompleteEvent(final Client client, 
+    		final Locale locale, final String appUrl) {
+        super(client);
+        this.client = client;
         this.locale = locale;
         this.appUrl = appUrl;
     }
@@ -28,8 +29,8 @@ public class OnRegistrationCompleteEvent extends ApplicationEvent {
         return locale;
     }
 
-    public Organisation getOrganisation() {
-        return organisation;
+    public Client getClient() {
+        return client;
     }
 
 }

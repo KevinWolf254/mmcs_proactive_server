@@ -4,15 +4,15 @@ import java.util.Locale;
 
 import org.springframework.context.ApplicationEvent;
 
-import co.ke.aeontech.models.Administrator;
+import co.ke.aeontech.models.ClientAdmin;
 
 @SuppressWarnings("serial")
 public class OnUserRegistrationCompleteEvent extends ApplicationEvent {
 
     private final String rawPassword;
     private final Locale locale;
-    private final Administrator user;
-	public OnUserRegistrationCompleteEvent(final Administrator user, final Locale locale, final String rawPassword) {
+    private final ClientAdmin user;
+	public OnUserRegistrationCompleteEvent(final ClientAdmin user, final Locale locale, final String rawPassword) {
 		super(user);
 		this.rawPassword = rawPassword;
 		this.locale = locale;
@@ -24,7 +24,7 @@ public class OnUserRegistrationCompleteEvent extends ApplicationEvent {
 	public Locale getLocale() {
 		return locale;
 	}
-	public Administrator getUser() {
+	public ClientAdmin getUser() {
 		return user;
 	}
 }

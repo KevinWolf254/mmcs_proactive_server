@@ -1,203 +1,252 @@
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
+-- MySQL Workbench Forward Engineering
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
+-- -----------------------------------------------------
+-- Schema mmcs_proactive_db
+-- -----------------------------------------------------
 
-CREATE TABLE `administrator` (
-  `id` int(11) NOT NULL,
-  `country_code` tinyint(4) NOT NULL,
-  `phone_no` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+-- -----------------------------------------------------
+-- Schema mmcs_proactive_db
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `mmcs_proactive_db` ;
+USE `mmcs_proactive_db` ;
 
-CREATE TABLE `aeon_units` (
-  `id` int(11) NOT NULL,
-  `units` double NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-CREATE TABLE `charges` (
-  `id` int(11) NOT NULL,
-  `country` tinyint(4) NOT NULL,
-  `rwf` double NOT NULL,
-  `rwf_airtel` double NOT NULL,
-  `kes` double NOT NULL,
-  `kes_airtel` double NOT NULL,
-  `tzs` double NOT NULL,
-  `tzs_airtel` double NOT NULL,
-  `ugx` double NOT NULL,
-  `ugx_airtel` double NOT NULL,
-  `other` double NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-CREATE TABLE `exchange_rates` (
-  `id` int(11) NOT NULL,
-  `country` tinyint(4) NOT NULL,
-  `rwf` double NOT NULL,
-  `kes` double NOT NULL,
-  `tzs` double NOT NULL,
-  `ugx` double NOT NULL,
-  `dollar` double NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-CREATE TABLE `organisation` (
-  `id` int(11) NOT NULL,
-  `country` tinyint(4) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `enabled` tinyint(4) NOT NULL,
-  `created_on` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-CREATE TABLE `org_administrators` (
-  `org_fk` int(11) NOT NULL,
-  `admin_fk` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-CREATE TABLE `org_payments` (
-  `org_fk` int(11) NOT NULL,
-  `payment_fk` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-CREATE TABLE `org_trans_costs` (
-  `org_fk` int(11) NOT NULL,
-  `trans_cost_fk` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-CREATE TABLE `org_units` (
-  `id` int(11) NOT NULL,
-  `units_available` double NOT NULL,
-  `org_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-CREATE TABLE `org_units_requests` (
-  `org_fk` int(11) NOT NULL,
-  `request_fk` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-CREATE TABLE `payment` (
-  `id` int(11) NOT NULL,
-  `transaction_id` varchar(255) NOT NULL,
-  `category` varchar(255) NOT NULL,
-  `source` varchar(255) NOT NULL,
-  `provider` varchar(255) NOT NULL,
-  `provider_ref_id` varchar(255) NOT NULL,
-  `currency` tinyint(1) NOT NULL,
-  `amount` double NOT NULL,
-  `transaction_fee` double NOT NULL,
-  `provider_fee` double NOT NULL,
-  `date` datetime NOT NULL,
-  `status` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-CREATE TABLE `sender_identifier` (
-  `id` int(11) NOT NULL,
-  `name` varchar(11) NOT NULL,
-  `paid` tinyint(4) NOT NULL,
-  `org_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-CREATE TABLE `transaction_cost` (
-  `id` int(11) NOT NULL,
-  `amount` double NOT NULL,
-  `message_id` varchar(255) NOT NULL,
-  `date` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-CREATE TABLE `units_request` (
-  `id` int(11) NOT NULL,
-  `amount_requested` double NOT NULL,
-  `mpesa_trans_no` varchar(11) NOT NULL,
-  `request_date` datetime NOT NULL,
-  `request_status` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-CREATE TABLE `verification_token` (
-  `id` int(11) NOT NULL,
-  `token` varchar(255) NOT NULL,
-  `expiry_date` date NOT NULL,
-  `org_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+-- -----------------------------------------------------
+-- Table `mmcs_proactive_db`.`client`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mmcs_proactive_db`.`client` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `country` TINYINT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  `is_activated` TINYINT NULL,
+  `created_on` DATETIME NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE)
+ENGINE = InnoDB;
 
 
-ALTER TABLE `administrator`
-  ADD PRIMARY KEY (`id`);
-
-ALTER TABLE `aeon_units`
-  ADD PRIMARY KEY (`id`);
-
-ALTER TABLE `charges`
-  ADD UNIQUE KEY `country` (`country`),
-  ADD KEY `id` (`id`);
-
-ALTER TABLE `exchange_rates`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `currency` (`country`);
-
-ALTER TABLE `organisation`
-  ADD PRIMARY KEY (`id`);
-
-ALTER TABLE `org_administrators`
-  ADD PRIMARY KEY (`org_fk`,`admin_fk`);
-
-ALTER TABLE `org_payments`
-  ADD PRIMARY KEY (`org_fk`,`payment_fk`);
-
-ALTER TABLE `org_trans_costs`
-  ADD PRIMARY KEY (`org_fk`,`trans_cost_fk`);
-
-ALTER TABLE `org_units`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `org_id` (`org_id`);
-
-ALTER TABLE `org_units_requests`
-  ADD PRIMARY KEY (`org_fk`,`request_fk`);
-
-ALTER TABLE `payment`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `transaction_id` (`transaction_id`),
-  ADD UNIQUE KEY `provider_ref_id` (`provider_ref_id`);
-
-ALTER TABLE `sender_identifier`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`);
-
-ALTER TABLE `transaction_cost`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `message_id` (`message_id`);
-
-ALTER TABLE `units_request`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `mpesa_trans_no` (`mpesa_trans_no`);
-
-ALTER TABLE `verification_token`
-  ADD PRIMARY KEY (`id`);
+-- -----------------------------------------------------
+-- Table `mmcs_proactive_db`.`client_admin`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mmcs_proactive_db`.`client_admin` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `email` VARCHAR(45) NOT NULL,
+  `phone_no` VARCHAR(13) NULL,
+  `client_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
+  INDEX `fk_client_admin_client_idx` (`client_id` ASC) VISIBLE,
+  CONSTRAINT `fk_client_admin_client`
+    FOREIGN KEY (`client_id`)
+    REFERENCES `mmcs_proactive_db`.`client` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 
-ALTER TABLE `administrator`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=212;
-ALTER TABLE `aeon_units`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-ALTER TABLE `charges`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-ALTER TABLE `exchange_rates`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-ALTER TABLE `organisation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
-ALTER TABLE `org_units`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=408;
-ALTER TABLE `payment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
-ALTER TABLE `sender_identifier`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=308;
-ALTER TABLE `transaction_cost`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-ALTER TABLE `units_request`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
-ALTER TABLE `verification_token`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- -----------------------------------------------------
+-- Table `mmcs_proactive_db`.`payment`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mmcs_proactive_db`.`payment` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `code` VARCHAR(45) NOT NULL,
+  `type` TINYINT NULL,
+  `account` VARCHAR(45) NULL,
+  `amount` DOUBLE NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `code_UNIQUE` (`code` ASC) VISIBLE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mmcs_proactive_db`.`sale`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mmcs_proactive_db`.`sale` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `quantity` DOUBLE NOT NULL,
+  `cost` DOUBLE NULL,
+  `additional_cost` DOUBLE NULL,
+  `date` DATETIME NULL,
+  `status` TINYINT NULL,
+  `client_id` INT NOT NULL,
+  `payment_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_sale_client1_idx` (`client_id` ASC) VISIBLE,
+  INDEX `fk_sale_payment1_idx` (`payment_id` ASC) VISIBLE,
+  CONSTRAINT `fk_sale_client1`
+    FOREIGN KEY (`client_id`)
+    REFERENCES `mmcs_proactive_db`.`client` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_sale_payment1`
+    FOREIGN KEY (`payment_id`)
+    REFERENCES `mmcs_proactive_db`.`payment` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mmcs_proactive_db`.`confirmation`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mmcs_proactive_db`.`confirmation` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `amount` DOUBLE NOT NULL,
+  `mpesa_no` VARCHAR(45) NOT NULL,
+  `state` TINYINT NOT NULL,
+  `date` DATETIME NULL,
+  `client_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `mpesa_no_UNIQUE` (`mpesa_no` ASC) VISIBLE,
+  INDEX `fk_confirmation_client1_idx` (`client_id` ASC) VISIBLE,
+  CONSTRAINT `fk_confirmation_client1`
+    FOREIGN KEY (`client_id`)
+    REFERENCES `mmcs_proactive_db`.`client` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mmcs_proactive_db`.`sale_cost`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mmcs_proactive_db`.`sale_cost` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `amount` DOUBLE NOT NULL,
+  `message_id` VARCHAR(45) NOT NULL,
+  `incurred_on` DATETIME NOT NULL,
+  `client_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_sale_cost_client1_idx` (`client_id` ASC) VISIBLE,
+  CONSTRAINT `fk_sale_cost_client1`
+    FOREIGN KEY (`client_id`)
+    REFERENCES `mmcs_proactive_db`.`client` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mmcs_proactive_db`.`token`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mmcs_proactive_db`.`token` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `value` VARCHAR(255) NOT NULL,
+  `expiry_date` DATETIME NOT NULL,
+  `client_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_token_client1_idx` (`client_id` ASC) VISIBLE,
+  CONSTRAINT `fk_token_client1`
+    FOREIGN KEY (`client_id`)
+    REFERENCES `mmcs_proactive_db`.`client` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mmcs_proactive_db`.`short_code`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mmcs_proactive_db`.`short_code` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `value` VARCHAR(11) NOT NULL,
+  `client_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `value_UNIQUE` (`value` ASC) VISIBLE,
+  INDEX `fk_short_code_client1_idx` (`client_id` ASC) VISIBLE,
+  CONSTRAINT `fk_short_code_client1`
+    FOREIGN KEY (`client_id`)
+    REFERENCES `mmcs_proactive_db`.`client` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mmcs_proactive_db`.`sale_short_code`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mmcs_proactive_db`.`sale_short_code` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `amount` DOUBLE NOT NULL,
+  `cost` DOUBLE NOT NULL,
+  `date` DATETIME NOT NULL,
+  `short_code_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_sale_short_code_short_code1_idx` (`short_code_id` ASC) VISIBLE,
+  CONSTRAINT `fk_sale_short_code_short_code1`
+    FOREIGN KEY (`short_code_id`)
+    REFERENCES `mmcs_proactive_db`.`short_code` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mmcs_proactive_db`.`inventory`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mmcs_proactive_db`.`inventory` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `amount` DOUBLE NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mmcs_proactive_db`.`exchange_rates`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mmcs_proactive_db`.`exchange_rates` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `country` TINYINT NOT NULL,
+  `rwf` DOUBLE NOT NULL,
+  `kes` DOUBLE NOT NULL,
+  `tzs` DOUBLE NOT NULL,
+  `ugx` DOUBLE NOT NULL,
+  `dollar` DOUBLE NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `country_UNIQUE` (`country` ASC) VISIBLE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mmcs_proactive_db`.`credit`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mmcs_proactive_db`.`credit` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `amount` DOUBLE NOT NULL,
+  `client_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_credit_client1_idx` (`client_id` ASC) VISIBLE,
+  CONSTRAINT `fk_credit_client1`
+    FOREIGN KEY (`client_id`)
+    REFERENCES `mmcs_proactive_db`.`client` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mmcs_proactive_db`.`charges`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mmcs_proactive_db`.`charges` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `country` TINYINT NOT NULL,
+  `rwf` DOUBLE NOT NULL,
+  `rwf_airtel` DOUBLE NOT NULL,
+  `kes` DOUBLE NOT NULL,
+  `kes_airtel` DOUBLE NOT NULL,
+  `tzs` DOUBLE NOT NULL,
+  `tzs_airtel` DOUBLE NOT NULL,
+  `ugx` DOUBLE NOT NULL,
+  `ugx_airtel` DOUBLE NOT NULL,
+  `other` DOUBLE NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `country_UNIQUE` (`country` ASC) VISIBLE)
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

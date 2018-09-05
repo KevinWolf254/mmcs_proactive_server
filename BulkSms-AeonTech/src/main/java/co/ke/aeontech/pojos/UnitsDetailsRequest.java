@@ -1,22 +1,27 @@
 package co.ke.aeontech.pojos;
 
 public class UnitsDetailsRequest {
-	private Long id;
-//	private String name;
-	private String adminEmail;
-	
-	public UnitsDetailsRequest() {
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-//	public String getName() {
-//		return name;
+//	private Long id;
+//	private String adminEmail;
+//	
+//	public UnitsDetailsRequest() {
+//		super();
 //	}
-
-	public String getAdminEmail() {
-		return adminEmail;
-	}	
+//
+//	public Long getId() {
+//		return id;
+//	}
+//
+//	public String getAdminEmail() {
+//		return adminEmail;
+//	}
+//
+//	public void setId(Long id) {
+//		this.id = id;
+//	}
+//
+//	public void setAdminEmail(String adminEmail) {
+//		this.adminEmail = adminEmail;
+//	}
+	
 }

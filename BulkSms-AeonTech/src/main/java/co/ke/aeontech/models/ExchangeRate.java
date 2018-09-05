@@ -10,9 +10,11 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-import co.ke.aeontech.pojos.Country;
+import co.ke.aeontech.pojos.helpers.Country;
 
-@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
+@JsonIdentityInfo
+	(generator=ObjectIdGenerators.PropertyGenerator.class, 
+		property="id")
 @Entity
 @Table(name="exchange_rates")
 public class ExchangeRate {
@@ -21,18 +23,25 @@ public class ExchangeRate {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id")
 	private Long id;
+	
 	@Column(name="country", nullable = false, unique = true)
 	private Country country;
+	
 	@Column(name="rwf", nullable = false)
 	private double rwf;
+	
 	@Column(name="kes", nullable = false)
 	private double kes;
+	
 	@Column(name="tzs", nullable = false)
 	private double tzs;
+	
 	@Column(name="ugx", nullable = false)
 	private double ugx;
+	
 	@Column(name="dollar", nullable = false)
 	private double dollar;
+	
 	public ExchangeRate() {
 		super();
 	}
