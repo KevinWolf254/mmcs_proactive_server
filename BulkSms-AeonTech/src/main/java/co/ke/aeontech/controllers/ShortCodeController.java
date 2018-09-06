@@ -1,6 +1,8 @@
 package co.ke.aeontech.controllers;
 
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.ke.aeontech.models.Client;
 import co.ke.aeontech.models.ShortCode;
+import co.ke.aeontech.pojos.reports.ShortCodeReport;
 import co.ke.aeontech.services.ClientService;
 import co.ke.aeontech.services.ShortCodeService;
 
@@ -23,17 +26,28 @@ public class ShortCodeController {
 	private ClientService clientService;
 
 	@GetMapping(value = "/shortcode/{client}/{name}")
-	public ResponseEntity<ShortCode> register(@PathVariable("client") Long id,
+	public ResponseEntity<Object> save(@PathVariable("client") Long id,
 			@PathVariable("name") String name){
 		final Client client = clientService.findById(id);
 		final ShortCode shortCode = shortCodeService.save(new ShortCode(name, client));
-		return new ResponseEntity<ShortCode>(shortCode, HttpStatus.OK);
+		return new ResponseEntity<Object>(new 
+				ShortCodeReport(200, "Success", 
+						"Saved short code", shortCode), HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/shortcode")
-	public ResponseEntity<Object> search(@RequestParam("value") String value){
-		final Boolean shortCode = shortCodeService.exists(value);
-		return new ResponseEntity<Object>(shortCode, HttpStatus.OK);
+	public ResponseEntity<Object> findByName(@RequestParam("name") String name){
+		
+		final Optional<ShortCode> shortCode = shortCodeService.findByName(name);
+		
+		if(!shortCode.isPresent())
+			return new ResponseEntity<Object>(new 
+					ShortCodeReport(400, "Invalid Request", 
+							"no short code with that name present", null), 
+					HttpStatus.OK);
+		return new ResponseEntity<Object>(new 
+				ShortCodeReport(200, "Success", 
+						"Short code with that name present", shortCode.get()), HttpStatus.OK);
 	}
 	
 }

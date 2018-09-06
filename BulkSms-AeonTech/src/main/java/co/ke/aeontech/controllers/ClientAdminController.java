@@ -1,5 +1,7 @@
 package co.ke.aeontech.controllers;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
@@ -35,14 +37,13 @@ public class ClientAdminController {
 	public ResponseEntity<Object> signIn(
 						@RequestParam("email") final String email){
 		
-		Client client = new Client();
-		try {
-			final ClientAdmin admin = adminService.findByEmail(email);		
-			client = clientService.findById(admin.getClient().getId());
-		} catch (Exception e) {
-			return new ResponseEntity<Object>(new ClientReport(400, "failed", e.getMessage(),
-					client), HttpStatus.OK);
-		}		
+			final Optional<ClientAdmin>  admin = adminService.findByEmail(email);
+			if(!admin.isPresent())
+				return new ResponseEntity<Object>(new ClientReport(400, "failed", 
+						"user does not exist", new Client()), HttpStatus.OK);
+			
+			final Client client = admin.get().getClient();//clientService.findById(admin.getClient().getId());
+				
 		return new ResponseEntity<Object>(new ClientReport(200, "success", "successfully signed in",
 				client), HttpStatus.OK);
 	}
@@ -72,13 +73,12 @@ public class ClientAdminController {
 	public ResponseEntity<Object> delete(
 						@PathVariable("email") String email){
 
-		try {
-			final ClientAdmin admin = adminService.findByEmail(email);
-			adminService.delete(admin);
-		} catch (Exception e) {
-			return new ResponseEntity<Object>(new Report(400, "failed", e.getMessage()), 
-					HttpStatus.OK);
-		}
+			final Optional<ClientAdmin> admin = adminService.findByEmail(email);
+			if(!admin.isPresent())
+				return new ResponseEntity<Object>(new Report(400, "failed", "could not delete user"), 
+						HttpStatus.OK);
+			
+			adminService.delete(admin.get());
 		return new ResponseEntity<Object>(new Report(200, "success", "deleted successfully"), 
 				HttpStatus.OK);
 	}

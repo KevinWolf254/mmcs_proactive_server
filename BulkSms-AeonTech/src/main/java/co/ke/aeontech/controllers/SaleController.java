@@ -84,7 +84,7 @@ public class SaleController {
 					HttpStatus.OK);
 		
 		//get client
-		final ClientAdmin admin = adminService.findByEmail(confirmation.getEmail());
+		final ClientAdmin admin = adminService.findByEmail(confirmation.getEmail()).get();
 		final Client client = admin.getClient();
 		
 		//check if sale was for short code 

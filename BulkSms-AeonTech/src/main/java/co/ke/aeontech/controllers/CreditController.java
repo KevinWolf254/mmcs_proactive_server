@@ -36,7 +36,7 @@ public class CreditController {
 	@GetMapping(value = "/credit/{email}")
 	public ResponseEntity<Object> find(@PathVariable("email") final String email) {
 		
-		final ClientAdmin admin = adminService.findByEmail(email);
+		final ClientAdmin admin = adminService.findByEmail(email).get();
 		final Client client = admin.getClient();
 		final CreditReport report = creditService.findCreditReport(client);
 		return new ResponseEntity<Object>(report, HttpStatus.OK);

@@ -55,7 +55,7 @@ public class ClientController {
 	private String registrationUrl;	
 
 	@GetMapping(value = "/client")
-	public ResponseEntity<Object> find(
+	public ResponseEntity<Object> findById(
 						@RequestParam("id") final Long id){	
 		final Client client = clientService.findById(id);
 		return new ResponseEntity<Object>(client, HttpStatus.OK);
