@@ -1,5 +1,7 @@
 package co.ke.aeontech.services.impl;
 
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,7 @@ public class ShortCodeServiceImpl implements ShortCodeService{
 	private SaleService saleService;
 
 	@Override
-	public ShortCode findByName(final String senderId) {
+	public Optional<ShortCode> findByName(final String senderId) {
 		return repository.findByName(senderId);
 	}
 	

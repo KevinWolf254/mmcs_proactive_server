@@ -3,6 +3,7 @@ package co.ke.aeontech.services;
 import co.ke.aeontech.models.Client;
 import co.ke.aeontech.models.ClientAdmin;
 
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -18,7 +19,7 @@ public interface ClientAdminService {
 	 * @param adminEmail
 	 * @return 
 	 */
-	public ClientAdmin findByEmail(String adminEmail);
+	public Optional<ClientAdmin> findByEmail(String adminEmail);
 	
 	/**
 	 * finds all administrators of a certain client 

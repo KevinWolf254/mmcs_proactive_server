@@ -180,7 +180,7 @@ public class SaleServiceImpl implements SaleService {
 			
 		if(sale.getPayment().getAmount() != amount) 
 			return false;
-		final ClientAdmin admin = adminService.findByEmail(email);
+		final ClientAdmin admin = adminService.findByEmail(email).get();
 		final Client client = admin.getClient();
 		if(sale.getStatus().equals(Status.FAILED)) {
 			//confirm

@@ -77,7 +77,7 @@ public class SmsServiceImpl implements SmsService {
 		
 			gateway = new AfricasTalkingGateway(username, apiKey);	        
 			//check if client paid for sender_id
-	        final ClientAdmin admin = adminService.findByEmail(sms.getSender());
+	        final ClientAdmin admin = adminService.findByEmail(sms.getSender()).get();
 	        final Client client = admin.getClient();
 	        final Country country = client.getCountry();
 	        final Currency currency = ratesService.getCurrency(country);
@@ -186,7 +186,7 @@ public class SmsServiceImpl implements SmsService {
 	@Override
 	public SmsValidationReport validateSms(Sms sms) {
 
-        final ClientAdmin admin = adminService.findByEmail(sms.getSender());
+        final ClientAdmin admin = adminService.findByEmail(sms.getSender()).get();
         final Client client = admin.getClient();
         final Country country = client.getCountry();
         //calculate the cost to the client

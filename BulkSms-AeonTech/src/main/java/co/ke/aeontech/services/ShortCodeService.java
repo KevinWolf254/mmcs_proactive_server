@@ -1,5 +1,7 @@
 package co.ke.aeontech.services;
 
+import java.util.Optional;
+
 import co.ke.aeontech.models.Client;
 import co.ke.aeontech.models.Sale;
 import co.ke.aeontech.models.ShortCode;
@@ -16,7 +18,7 @@ public interface ShortCodeService {
 	 * @param name
 	 * @return
 	 */
-	public ShortCode findByName(String name);
+	public Optional<ShortCode> findByName(String name);
 	
 	/**
 	 * finds a shortCode by its associated 

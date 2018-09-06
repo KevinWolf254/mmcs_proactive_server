@@ -25,6 +25,5 @@ public class ClientOptOut {
 	}
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
-	}
-	
+	}	
 }

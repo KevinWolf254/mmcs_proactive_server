@@ -1,6 +1,7 @@
 package co.ke.aeontech.services.impl;
 
 
+import java.util.Optional;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -19,7 +20,7 @@ public class ClientAdminServiceImpl implements ClientAdminService{
 	private ClientAdminRepository repository;
 
 	@Override
-	public ClientAdmin findByEmail(final String adminEmail) {
+	public Optional<ClientAdmin>  findByEmail(final String adminEmail) {
 		return repository.findByEmail(adminEmail);
 	}
 

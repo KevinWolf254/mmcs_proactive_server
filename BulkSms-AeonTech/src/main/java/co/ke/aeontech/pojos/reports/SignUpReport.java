@@ -12,6 +12,9 @@ public class SignUpReport extends Report {
 	private ClientAdmin admin;
 	private Credit credit;
 	
+	public SignUpReport() {
+		super();
+	}
 	public SignUpReport(int code, String title, 
 			String message, Client client, 
 			ShortCode shortCode, ClientAdmin admin,
