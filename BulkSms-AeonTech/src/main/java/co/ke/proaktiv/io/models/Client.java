@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import co.ke.proaktiv.io.pojos.helpers.Country;
@@ -54,7 +55,7 @@ public class Client {
 	@OneToMany(mappedBy = "client", orphanRemoval=true,
 			fetch = FetchType.LAZY, 
 			cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	private Set<Cost> smsCosts = new HashSet<Cost>();
+	private Set<Cost> costs = new HashSet<Cost>();
 	
 	@OneToMany(mappedBy = "client", orphanRemoval=true,
 			fetch = FetchType.LAZY, 
@@ -63,7 +64,6 @@ public class Client {
 	
 	public Client() {
 		super();
-		this.enabled = false;
 	}
 
 	public Client(Country country, String name) {
@@ -114,6 +114,7 @@ public class Client {
 		this.createdOn = createdOn;
 	}
 
+	@JsonIgnore
 	public Set<ClientAdmin> getAdmins() {
 		return admins;
 	}
@@ -121,7 +122,8 @@ public class Client {
 	public void setAdmins(Set<ClientAdmin> admins) {
 		this.admins = admins;
 	}
-
+	
+	@JsonIgnore
 	public Set<Sale> getSales() {
 		return sales;
 	}
@@ -130,14 +132,16 @@ public class Client {
 		this.sales = sales;
 	}
 
-	public Set<Cost> getSmsCosts() {
-		return smsCosts;
+	@JsonIgnore
+	public Set<Cost> getCosts() {
+		return costs;
 	}
 
-	public void setSmsCosts(Set<Cost> smsCosts) {
-		this.smsCosts = smsCosts;
+	public void setCosts(Set<Cost> costs) {
+		this.costs = costs;
 	}
 
+	@JsonIgnore
 	public Set<Token> getTokens() {
 		return tokens;
 	}

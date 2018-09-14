@@ -23,7 +23,7 @@ import co.ke.proaktiv.io.pojos.helpers.Currency;
 	(generator=ObjectIdGenerators.PropertyGenerator.class, 
 		property="id")
 @Entity
-@Table(name="sms_cost")
+@Table(name="cost")
 public class Cost {
 	
 	@Id 

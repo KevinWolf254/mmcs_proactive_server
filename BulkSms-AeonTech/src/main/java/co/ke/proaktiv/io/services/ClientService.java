@@ -7,21 +7,28 @@ public interface ClientService {
 	/**
 	 * finds a client by its id
 	 * @param id
-	 * @return
+	 * @return Client
 	 */
 	public Client findById(final Long id);
 	
 	/**
 	 * finds a client by its name
 	 * @param name
-	 * @return
+	 * @return Client
 	 */
 	public Client findByName(final String name);
 	
 	/**
+	 * finds a client by a administrator's email
+	 * @param email
+	 * @return Client
+	 */
+	public Client findByAdminsEmail(String email);
+	
+	/**
 	 * saves a new client
 	 * @param client
-	 * @return
+	 * @return Client
 	 */
 	public Client save(final Client client);
 	

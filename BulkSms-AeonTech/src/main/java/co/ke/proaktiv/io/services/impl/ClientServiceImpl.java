@@ -28,6 +28,11 @@ public class ClientServiceImpl implements ClientService {
 	}
 	
 	@Override
+	public Client findByAdminsEmail(String email) {
+		return repository.findByAdminsEmail(email);
+	}
+	
+	@Override
 	public Client save(final Client client) { 
 		final Client client_ = repository.save(client);		
 		log.info("###### saved: "+client_);

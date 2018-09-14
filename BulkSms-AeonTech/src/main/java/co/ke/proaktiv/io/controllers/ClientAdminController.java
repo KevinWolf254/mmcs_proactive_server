@@ -37,15 +37,16 @@ public class ClientAdminController {
 	public ResponseEntity<Object> signIn(
 						@RequestParam("email") final String email){
 		
-			final Optional<ClientAdmin>  admin = adminService.findByEmail(email);
+		ClientReport report = new ClientReport();
+		final Optional<ClientAdmin>  admin = adminService.findByEmail(email);
 			if(!admin.isPresent())
 				return new ResponseEntity<Object>(new ClientReport(400, "failed", 
 						"user does not exist", new Client()), HttpStatus.OK);
-			
-			final Client client = admin.get().getClient();//clientService.findById(admin.getClient().getId());
-				
-		return new ResponseEntity<Object>(new ClientReport(200, "success", "successfully signed in",
-				client), HttpStatus.OK);
+			final Client client = admin.get().getClient();
+			final Client response = new Client();
+			response.setEnabled(client.isEnabled());
+			report = new ClientReport(200, "success", "successfully signed in",	response);
+		return new ResponseEntity<Object>(report, HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/admin/{id}")

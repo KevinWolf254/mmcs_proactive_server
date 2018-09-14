@@ -1,7 +1,11 @@
 package co.ke.proaktiv.io.pojos.reports;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+
 import co.ke.proaktiv.io.models.Client;
 
+@JsonAutoDetect(fieldVisibility = Visibility.ANY)
 public class ClientReport extends Report {
 
 	private Client client;
@@ -22,6 +26,5 @@ public class ClientReport extends Report {
 
 	public void setClient(Client client) {
 		this.client = client;
-	}
-	
+	}	
 }

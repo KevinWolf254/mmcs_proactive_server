@@ -12,4 +12,6 @@ public interface ClientRepository extends JpaRepository<Client, Long>{
 	 * @return
 	 */
 	public Client findByName(String name);
+	
+	public Client findByAdminsEmail(String email);
 }
