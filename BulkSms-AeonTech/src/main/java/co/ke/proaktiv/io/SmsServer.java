@@ -14,7 +14,7 @@ import co.ke.proaktiv.io.exceptionhandlers.CustomAsyncExceptionHandler;
 
 @SpringBootApplication
 @EnableAsync
-public class BulkSmsAeonTechApplication {
+public class SmsServer {
 	
 	@Value("${contacts.thread.core-pool}")
     private int corePoolSize;
@@ -29,7 +29,7 @@ public class BulkSmsAeonTechApplication {
     private int threadTimeout;
 
 	public static void main(String[] args) {
-		SpringApplication.run(BulkSmsAeonTechApplication.class, args);
+		SpringApplication.run(SmsServer.class, args);
 	}
 	
 	@Bean
