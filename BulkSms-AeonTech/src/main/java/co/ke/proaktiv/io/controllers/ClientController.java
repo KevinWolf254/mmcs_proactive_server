@@ -31,7 +31,6 @@ import co.ke.proaktiv.io.services.CreditService;
 import co.ke.proaktiv.io.services.ExchangeRatesService;
 import co.ke.proaktiv.io.services.ShortCodeService;
 import co.ke.proaktiv.io.services.TokenService;
-import co.ke.proaktiv.io.services.impl.ShortCodeServiceImpl;
 
 @RestController
 public class ClientController {
@@ -75,7 +74,7 @@ public class ClientController {
 		ShortCode shortCode = new ShortCode();
 		ClientAdmin admin = new ClientAdmin();
 		Credit credit = new Credit();
-//		try {
+		try {
 			
 			if(shortCodeService.exists(sc_name)) {
 				return new ResponseEntity<Object>(
@@ -101,13 +100,13 @@ public class ClientController {
 			eventPublisher
 				.publishEvent(new OnRegistrationCompleteEvent(client, 
 						request.getLocale(), appUrl));
-//		} catch (Exception e) {
-//			log.info("error:"+e.getMessage());
-//			return new ResponseEntity<Object>(
-//					new SignUpReport(500, "Error", e.getMessage(), 
-//							client, shortCode, admin, credit),
-//					HttpStatus.OK);
-//		}
+		} catch (Exception e) {
+			log.info("error:"+e.getMessage());
+			return new ResponseEntity<Object>(
+					new SignUpReport(500, "Error", e.getMessage(), 
+							client, shortCode, admin, credit),
+					HttpStatus.OK);
+		}
 		
 		return new ResponseEntity<Object>( 
 				new SignUpReport(200, "success","created organization successfully", 

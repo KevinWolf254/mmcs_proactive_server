@@ -1,6 +1,5 @@
 package co.ke.proaktiv.io.listeners;
 
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -40,7 +39,6 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
         this.confirmRegistration(event);
     }
  
-//    @SuppressWarnings("unchecked")
 	private void confirmRegistration(final OnRegistrationCompleteEvent event) {
         final Client client = event.getClient();
 
@@ -61,7 +59,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 				.append(" ")
 				.append(Url)
 				.append(event.getAppUrl())
-				.append("/regitrationConfirm?token=")
+				.append("/client/enable?token=")
 				.append(token);
 		String message =  builder.toString();
          
