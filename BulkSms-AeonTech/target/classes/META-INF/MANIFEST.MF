@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
-Implementation-Title: BulkSms-AeonTech
+Implementation-Title: mmcs_proaktiv_io
 Implementation-Version: 0.0.1-SNAPSHOT
 Built-By: kevin
-Implementation-Vendor-Id: co.ke.aeontech
+Implementation-Vendor-Id: co.ke.proaktiv.io
 Build-Jdk: 1.8.0_181
 Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
- ot-starter-parent/BulkSms-AeonTech-API
+ ot-starter-parent/mmcs_proaktiv_io
 Created-By: Maven Integration for Eclipse
 
