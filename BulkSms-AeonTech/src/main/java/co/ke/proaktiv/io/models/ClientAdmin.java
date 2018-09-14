@@ -77,6 +77,14 @@ public class ClientAdmin {
 		return email;
 	}
 
+	public String getPhoneNo() {
+		return phoneNo;
+	}
+
+	public void setPhoneNo(String phoneNo) {
+		this.phoneNo = phoneNo;
+	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
