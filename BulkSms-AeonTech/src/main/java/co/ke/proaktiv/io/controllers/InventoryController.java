@@ -2,6 +2,7 @@ package co.ke.proaktiv.io.controllers;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,8 +33,11 @@ public class InventoryController {
 	public ResponseEntity<Object> add(@RequestParam("client") final Long id,
 			@RequestParam("amount") final double amount) {	
 		
-		final Client client = clientService.findById(id);
-		final Currency currency = ratesService.getCurrency(client.getCountry());
+
+		final Optional<Client> client = clientService.findById(id);
+		if(!client.isPresent())
+			return new ResponseEntity<Object>(new Inventory(), HttpStatus.OK);
+		final Currency currency = ratesService.getCurrency(client.get().getCountry());
 		
 		final Inventory inventory = inventoryService.findByCurrency(currency);
 		final BigDecimal inventoryAmount = BigDecimal.valueOf(inventory.getAmount());

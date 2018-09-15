@@ -2,6 +2,7 @@ package co.ke.proaktiv.io.controllers;
 
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,7 +60,9 @@ public class ClientController {
 	@GetMapping(value = "/client")
 	public ResponseEntity<Object> findById(
 						@RequestParam("id") final Long id){	
-		final Client client = clientService.findById(id);
+		final Optional<Client> client = clientService.findById(id);
+		if(!client.isPresent())
+			return new ResponseEntity<Object>(new Client(), HttpStatus.OK);
 		return new ResponseEntity<Object>(client, HttpStatus.OK);
 	}
 	

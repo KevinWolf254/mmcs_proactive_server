@@ -1,5 +1,7 @@
 package co.ke.proaktiv.io.services.impl;
 
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +18,10 @@ public class ClientServiceImpl implements ClientService {
 	@Autowired
 	private ClientRepository repository;
 	
-	@Override
-	public Client findById(Long org_id){
-		Client found_by_id = repository.findById(org_id).get();
-		return found_by_id;
+	@Override 
+	public Optional<Client> findById(Long org_id){
+		final Optional<Client> client = repository.findById(org_id);
+		return client;
 	}
 
 	@Override

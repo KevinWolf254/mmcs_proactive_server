@@ -43,9 +43,7 @@ public class ClientAdminController {
 				return new ResponseEntity<Object>(new ClientReport(400, "failed", 
 						"user does not exist", new Client()), HttpStatus.OK);
 			final Client client = admin.get().getClient();
-			final Client response = new Client();
-			response.setEnabled(client.isEnabled());
-			report = new ClientReport(200, "success", "successfully signed in",	response);
+			report = new ClientReport(200, "success", "successfully signed in",	client);
 		return new ResponseEntity<Object>(report, HttpStatus.OK);
 	}
 	
@@ -57,8 +55,11 @@ public class ClientAdminController {
 
 		ClientAdmin admin = new ClientAdmin();
 		try {
-			final Client client  = clientService.findById(id);		
-			admin = adminService.save(new ClientAdmin(email, client));
+			final Optional<Client> client  = clientService.findById(id);
+			if(!client.isPresent())
+				return new ResponseEntity<Object>(new AdminReport(400, "failed", "invalis request", admin), 
+						HttpStatus.OK);
+			admin = adminService.save(new ClientAdmin(email, client.get()));
 			eventPublisher.publishEvent(new 
 					OnUserRegistrationCompleteEvent(admin, request.getLocale(), rawPassword));
 		} catch (Exception e) {

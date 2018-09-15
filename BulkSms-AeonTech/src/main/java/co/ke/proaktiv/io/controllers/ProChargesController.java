@@ -1,6 +1,8 @@
 package co.ke.proaktiv.io.controllers;
 
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.ke.proaktiv.io.models.Client;
 import co.ke.proaktiv.io.models.ProCharges;
 import co.ke.proaktiv.io.pojos.helpers.Country;
 import co.ke.proaktiv.io.pojos.reports.ChargesReport;
@@ -37,7 +40,11 @@ public class ProChargesController {
 
 	@GetMapping(value = "/charges/{id}")
 	public ResponseEntity<ProCharges> getCharges(@PathVariable("id") final long id) {
-		final Country country = clientService.findById(id).getCountry();
+
+		final Optional<Client> client = clientService.findById(id);
+		if(!client.isPresent())
+			return new ResponseEntity<ProCharges>(new ProCharges(), HttpStatus.OK);
+		final Country country = clientService.findById(id).get().getCountry();
 		final ProCharges charges = chargesService.findByCountry(country);
 		
 		return new ResponseEntity<ProCharges>(charges, HttpStatus.OK);

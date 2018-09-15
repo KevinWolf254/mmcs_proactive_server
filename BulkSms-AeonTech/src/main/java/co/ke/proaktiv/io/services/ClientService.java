@@ -1,5 +1,7 @@
 package co.ke.proaktiv.io.services;
 
+import java.util.Optional;
+
 import co.ke.proaktiv.io.models.Client;
 import co.ke.proaktiv.io.pojos.helpers.Country;
 
@@ -9,7 +11,7 @@ public interface ClientService {
 	 * @param id
 	 * @return Client
 	 */
-	public Client findById(final Long id);
+	public Optional<Client> findById(final Long id);
 	
 	/**
 	 * finds a client by its name

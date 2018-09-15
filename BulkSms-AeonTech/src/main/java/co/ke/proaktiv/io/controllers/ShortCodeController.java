@@ -28,8 +28,10 @@ public class ShortCodeController {
 	@GetMapping(value = "/shortcode/{client}/{name}")
 	public ResponseEntity<Object> save(@PathVariable("client") Long id,
 			@PathVariable("name") String name){
-		final Client client = clientService.findById(id);
-		final ShortCode shortCode = shortCodeService.save(new ShortCode(name, client));
+		final Optional<Client> client = clientService.findById(id);
+		if(!client.isPresent())
+			return new ResponseEntity<Object>(new ShortCodeReport(), HttpStatus.OK);
+		final ShortCode shortCode = shortCodeService.save(new ShortCode(name, client.get()));
 		return new ResponseEntity<Object>(new 
 				ShortCodeReport(200, "Success", 
 						"Saved short code", shortCode), HttpStatus.OK);

@@ -1,5 +1,6 @@
 package co.ke.proaktiv.io.controllers;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -51,9 +52,11 @@ public class SaleController {
 	
 	@GetMapping(value = "/sale/{id}")
 	public ResponseEntity<Object> findByClient(@PathVariable("id") Long id){
-		
-		final Client client = clientService.findById(id);
-		final List<Sale> sales = saleService.findByClient(client);
+
+		final Optional<Client> client = clientService.findById(id);
+		if(!client.isPresent())
+			return new ResponseEntity<Object>(new ArrayList<Sale>(), HttpStatus.OK);		
+		final List<Sale> sales = saleService.findByClient(client.get());
 		return new ResponseEntity<Object>(sales, HttpStatus.OK);
 	}
 	

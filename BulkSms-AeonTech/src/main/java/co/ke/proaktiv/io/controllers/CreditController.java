@@ -2,12 +2,14 @@ package co.ke.proaktiv.io.controllers;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,8 +35,8 @@ public class CreditController {
 	@Autowired
 	private InventoryService inventoryService;
 	
-	@GetMapping(value = "/credit/{email}")
-	public ResponseEntity<Object> find(@PathVariable("email") final String email) {
+	@PostMapping(value = "/credit")
+	public ResponseEntity<Object> find(@RequestParam("email") final String email) {
 		
 		final ClientAdmin admin = adminService.findByEmail(email).get();
 		final Client client = admin.getClient();
@@ -45,7 +47,7 @@ public class CreditController {
 	@GetMapping(value = "/credit/{id}")
 	public ResponseEntity<Object> findByClientId(@PathVariable("id") final Long id) {
 		
-		final Client client = clientService.findById(id);
+		final Client client = clientService.findById(id).get();
 		final CreditReport report = creditService.findCreditReport(client);
 		return new ResponseEntity<Object>(report, HttpStatus.OK);
 	}
@@ -54,8 +56,10 @@ public class CreditController {
 	public ResponseEntity<Object> subtract(@RequestParam("client") final Long id,
 			@RequestParam("amount") final double amount) {
 		
-		final Client client = clientService.findById(id);
-		final Credit credit = creditService.findByClient(client);
+		final Optional<Client> client = clientService.findById(id);
+		if(!client.isPresent())
+			return new ResponseEntity<Object>(new Credit(), HttpStatus.OK);
+		final Credit credit = creditService.findByClient(client.get());
 		
 		final BigDecimal available = BigDecimal.valueOf(credit.getAmount());
 		final BigDecimal expense = BigDecimal.valueOf(amount);
