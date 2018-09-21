@@ -49,8 +49,8 @@ public class ClientAdminController {
 	
 	@PostMapping(value = "/admin/{id}")
 	public ResponseEntity<Object> save(
-						@PathVariable("client") Long id, 						
-						@RequestParam("admin") String email, 
+						@PathVariable("id") Long id, 						
+						@RequestParam("email") String email, 
 						@RequestParam("password") String rawPassword, WebRequest request){
 
 		ClientAdmin admin = new ClientAdmin();
