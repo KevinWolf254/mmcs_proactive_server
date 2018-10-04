@@ -34,8 +34,8 @@ public interface CreditService {
 	public void delete(Credit credit);
 	
 	/**
-	 * finds a credit report for a client
-	 * it check for the credit remaining
+	 * finds a credit report for a client,
+	 * it checks for the credit remaining
 	 * and also the payments that have
 	 * not been disbursed to the client
 	 * @param client
@@ -52,6 +52,6 @@ public interface CreditService {
 	 * @return
 	 */
 	public Credit add(Client client, Sale sale);
-	
-	public Credit subtract(Client client, double amount);
+//	
+//	public Credit subtract(Client client, double amount);
 }

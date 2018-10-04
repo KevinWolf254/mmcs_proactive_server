@@ -124,11 +124,11 @@ public class CreditServiceImpl implements CreditService{
 		return credit_;
 	}
 
-	@Override
-	public Credit subtract(Client client, double amount) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public Credit subtract(Client client, double amount) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 	
 	private static final Logger log = LoggerFactory.getLogger(CreditServiceImpl.class);
 }

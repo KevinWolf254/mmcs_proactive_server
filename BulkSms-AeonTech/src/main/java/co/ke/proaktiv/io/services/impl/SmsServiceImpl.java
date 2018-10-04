@@ -132,7 +132,7 @@ public class SmsServiceImpl implements SmsService {
             		messageId, client));
             
             //deduct client's credit
-            credit = creditService.subtract(client, client_cost);
+//            credit = creditService.subtract(client, client_cost);
         	
             //deduct inventory 
     		final Inventory inventory = inventoryService.findByCurrency(currency);
@@ -151,8 +151,8 @@ public class SmsServiceImpl implements SmsService {
         }
 
 		emailService.sendEmail(new EmailMessage(admin.getEmail(), "SMS Sent Successfully", 
-				"Sms's were sent successfully. The credit remaining in your account is:"
-						+credit.toString()));
+				"Sms's were sent successfully. The credit remaining in your account is:"));
+//						+credit.toString()));
 		
 		return new SmsDeliveryReport(200, "Success", "Sms was sent successfully", messageId, 
 				received, rejected, rejectedNos.toString());
